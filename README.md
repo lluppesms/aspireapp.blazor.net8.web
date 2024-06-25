@@ -11,3 +11,8 @@ This project has fully automated CI/CD pipelines with Bicep templates for all of
 [1]: https://vscode.dev/github/lluppesms/aspireapp.blazor.net8.web/
 
 [![azd Compatible](/Docs/images/AZD_Compatible.png)](/.azure/readme.md)
+
+## TODO:
+
+- Haven't tested GH Actions deploy yet
+- Haven't tested AZ UP deploy yet

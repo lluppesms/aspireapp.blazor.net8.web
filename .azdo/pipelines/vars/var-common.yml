@@ -59,4 +59,4 @@ variables:
     value: 'playwright/api-tests'
 
   - name: playwrightWebsitePrefix
-    value: 'lll-aspireapp-web'
+    value: 'lll-aspireapp'
