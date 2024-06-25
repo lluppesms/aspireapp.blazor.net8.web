@@ -1,0 +1,18 @@
+# ----------------------------------------------------------------------------------------------------
+# Pipeline used by the azd command
+# ----------------------------------------------------------------------------------------------------
+name: aspireapp.blazor.azd
+
+infra:
+    provider: bicep
+    path: infra
+    module: azd-main
+
+pipeline:
+    provider: github
+
+services:
+  web:
+    project: ./src/AspireApp1/
+    language: csharp
+    host: appservice

@@ -1,0 +1,55 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# Pipeline to run a UI Smoke Test
+# ------------------------------------------------------------------------------------------------------------------------
+name: $(date:yyyy).$(date:MM).$(date:dd)$(rev:.r)
+pool:
+  vmImage: windows-latest
+
+# ----------------------------------------------------------------------------------------------------
+parameters:
+  - name: environmentToTest
+    displayName: Environment to Test
+    type: string
+    values:
+      - DEMO
+      - DEV
+      - QA
+      - PROD
+    default: DEMO
+
+# ------------------------------------------------------------------------------------------------------------------------
+trigger:
+  - none
+
+# schedules:
+# - cron: '0 12 * * 7'
+#   displayName: Scan Every Saturday
+#   branches:
+#     include:
+#     - main
+
+# ----------------------------------------------------------------------------------------------------
+variables:
+  - template: vars/var-common.yml
+
+# ----------------------------------------------------------------------------------------------------
+stages:
+- stage: UITestWebApp
+  displayName: UI Test ${{ parameters.environmentToTest }}
+  jobs:
+  - template: pipes/templates/playwright-template.yml
+    parameters:
+      environment: ${{ parameters.environmentToTest }}
+      testType: ${{ variables.playwrightUITestType }}
+      testPath: ${{ variables.playwrightUITestPath }}
+      debug: true
+
+- stage: APITestWebApp
+  displayName: API Test ${{ parameters.environmentToTest }}
+  jobs:
+  - template: pipes/templates/playwright-template.yml
+    parameters:
+      environment: ${{ parameters.environmentToTest }}
+      testType: ${{ variables.playwrightAPITestType }}
+      testPath: ${{ variables.playwrightAPITestPath }}
+      debug: true

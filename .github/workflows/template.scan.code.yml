@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# GHA Reusable Called Workflow to scan files for security issues
+# ------------------------------------------------------------------------------------------------------------------------
+name: template.scan.code
+on:
+  workflow_call:
+    inputs:
+      runMSDevSecOpsScan:
+        required: false
+        default: 'true'
+        type: string
+
+# ------------------------------------------------------------------------------------------------------------------------
+jobs:
+  scanner:
+    #runs-on: ubuntu-latest  #windows-latest
+    runs-on: windows-latest
+    # MSDO runs on windows-latest. (?)
+    # ubuntu-latest and macos-latest supporting coming soon
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          8.0.x
+
+    - name: Run Microsoft Security DevOps Analysis
+      uses: microsoft/security-devops-action@preview
+      if: ${{ github.event.inputs.runMSDevSecOpsScan == 'true' }}
+      id: msdo
+
+    - name: Upload alerts to Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: ${{ github.event.inputs.runMSDevSecOpsScan == 'true' }}
+      with:
+        sarif_file: ${{ steps.msdo.outputs.sarifFile }}
+      continue-on-error: true
+ 
+    - name: Upload alerts file as a workflow artifact
+      uses: actions/upload-artifact@v3
+      if: ${{ github.event.inputs.runMSDevSecOpsScan == 'true' }}
+      with:  
+        name: alerts
+        path: ${{ steps.msdo.outputs.sarifFile }}
+ 

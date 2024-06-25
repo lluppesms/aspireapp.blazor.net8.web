@@ -1,0 +1,67 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# GHA Workflow to deploy Azure Resources and WebApp
+# ------------------------------------------------------------------------------------------------------------------------
+# You need to set up secrets in the GitHub Secrets Repository before running these workflows.
+#   See readme.md for details
+# ------------------------------------------------------------------------------------------------------------------------
+name: deploy.bicep.infra.and.webapi
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning' 
+        type: choice
+        options:
+          - info
+          - warning
+          - debug 
+
+      runMSDevSecOpsScan:
+        description: 'Run MS DevSecOps Scan?'     
+        required: true
+        default: true 
+        type: boolean
+
+jobs:
+# ------------------------------------------------------------------------------------------------------------------------
+  scan-code:
+    name: Scan Source Code
+    uses: ./.github/workflows/template.scan.code.yml
+    with:
+      runMSDevSecOpsScan: '${{ github.event.inputs.runMSDevSecOpsScan }}'
+
+# ------------------------------------------------------------------------------------------------------------------------
+  build-app:
+    name: Build WebApp
+    uses: ./.github/workflows/template.webapp.build.yml
+    needs: scan-code
+    secrets: inherit
+    with:
+      envCode: 'dev'
+      rootDirectory: '${{ vars.APP_PROJECT_FOLDER_NAME }}'
+      projectName: '${{ vars.APP_PROJECT_NAME }}'
+      testDirectory: '${{ vars.APP_TEST_FOLDER_NAME }}'
+      testProjectName: '${{ vars.APP_TEST_PROJECT_NAME }}'
+      testApplication: true
+      listFilesAfterBuild: true
+
+# ------------------------------------------------------------------------------------------------------------------------
+  infra-dev:
+    name: Create DEV Infra
+    needs: build-app
+    uses: ./.github/workflows/template.create.infra.yml
+    secrets: inherit
+    with:
+      envCode: 'dev'
+
+# ------------------------------------------------------------------------------------------------------------------------
+  deploy-dev:
+    name: Deploy WebApp
+    needs: infra-dev
+    uses: ./.github/workflows/template.webapp.deploy.yml
+    secrets: inherit
+    with:
+      envCode: 'dev'
+

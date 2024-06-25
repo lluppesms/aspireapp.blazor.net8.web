@@ -1,0 +1,73 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# Pipeline to build and deploy Azure Resources and Application
+# See readme file for info about the contents of the variable group
+# ------------------------------------------------------------------------------------------------------------------------
+name: $(date:yyyy).$(date:MM).$(date:dd)$(rev:.r)
+pool:
+  vmImage: windows-latest
+  #vmImage: ubuntu-latest   # dacpac restore only runs on Windows...?
+variables:
+  - group: aspireapp.blazor.net8.web
+
+# ------------------------------------------------------------------------------------------------------------------------
+trigger:
+  # since this repo has both AzDO and GHA pipelines, nothing is run automatically...
+  - none
+  # batch: true
+  # branches:
+  #   include:
+  #     - main
+  #   exclude:
+  #     - '**/*.md'
+  # paths:
+  #   include:
+  #     - 'src/lll-aspireapp.web/**'
+
+# ----------------------------------------------------------------------------------------------------
+parameters:
+  - name: deployToEnvironment
+    displayName: Deploy To
+    type: string
+    values:
+      - DEMO
+      - DEV
+      - QA
+      - PROD
+      - MULTIPLE
+    default: DEMO
+  - name: runUnitTests
+    displayName: Run Unit Tests
+    type: boolean
+    default: true
+  - name: runUITests
+    displayName: Run UI Tests
+    type: boolean
+    default: true
+  - name: runGHASScan
+    displayName: Run GHAS Scan
+    type: boolean
+    default: false
+  - name: runMSDevSecOpsScan
+    displayName: Run MS DevSecOps Scan
+    type: boolean
+    default: false
+
+# ----------------------------------------------------------------------------------------------------
+stages:
+- ${{ if ne(parameters.deployToEnvironment, 'MULTIPLE') }}:
+  - template: pipes/infra-and-webapp-pipe.yml
+    parameters:
+      environments: ['${{ parameters.deployToEnvironment }}']
+      runUnitTests: ${{ parameters.runUnitTests }}
+      runUITests: ${{ parameters.runUITests }}
+      runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
+      runGHASScan: ${{ parameters.runGHASScan }}
+
+- ${{ if eq(parameters.deployToEnvironment, 'MULTIPLE') }}:
+  - template: pipes/infra-and-webapp-pipe.yml
+    parameters:
+      environments: ['DEV','PROD']
+      runUnitTests: ${{ parameters.runUnitTests }}
+      runUITests: ${{ parameters.runUITests }}
+      runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
+      runGHASScan: ${{ parameters.runGHASScan }}

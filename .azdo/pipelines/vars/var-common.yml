@@ -1,0 +1,62 @@
+# ----------------------------------------------------------------------------------------------------
+# Variables common to all environments
+# ----------------------------------------------------------------------------------------------------
+variables:
+  # - name: appName
+  #   value: 'this is unique to you - define in a variable group or on the pipeline variables!'
+  # - name: serviceConnectionName
+  #   value: 'this is unique to you - define in a variable group or on the pipeline variables!'
+
+  - name: resourceGroupPrefix
+    value: 'rg_lll-aspireapp_web'
+  - name: applicationTitle
+    value: 'lll-aspireapp Demo'
+  - name: location
+    value: 'eastus'
+
+  - name: webSiteSku 
+    value: 'B1'
+  - name: storageSku 
+    value: 'Standard_LRS'
+
+  - name: appFolderName
+    value: 'src\AspireApp1'
+  - name: appSolutionName
+    value: 'AspireApp1'
+
+  - name: appProjectFolderName
+    value: 'AspireApp1.Web'
+  - name: appProjectName
+    value: 'AspireApp1.Web'
+  - name: appProjectExtension
+    value: 'csproj'
+
+  - name: testFolderName 
+    value: 'AspireApp1.Tests'
+  - name: testProjectName
+    value: 'AspireApp1.Tests'
+
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: runtime 
+    value: 'win-x64'
+
+  - name: workingDirectoryInfra
+    value: '\infra\bicep'
+  - name: workingDirectoryIgnore
+    value: '\Docs'
+
+  - name: playwrightUITestType
+    value: 'ui'
+  - name: playwrightUITestPath
+    value: 'playwright/ui-tests'
+
+  - name: playwrightAPITestType
+    value: 'api'
+  - name: playwrightAPITestPath
+    value: 'playwright/api-tests'
+
+  - name: playwrightWebsitePrefix
+    value: 'lll-aspireapp-web'
