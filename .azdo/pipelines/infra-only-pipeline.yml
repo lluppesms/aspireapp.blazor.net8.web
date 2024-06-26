@@ -42,7 +42,7 @@ parameters:
   - name: runMSDevSecOpsScan
     displayName: Run MS DevSecOps Scan
     type: boolean
-    default: false
+    default: true
 
 # ----------------------------------------------------------------------------------------------------
 stages:
