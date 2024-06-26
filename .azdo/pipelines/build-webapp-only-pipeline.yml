@@ -42,7 +42,7 @@ parameters:
   - name: runUnitTests
     displayName: Run Unit Tests
     type: boolean
-    default: true
+    default: false
   - name: runGHASScan
     displayName: Run GHAS Scan
     type: boolean

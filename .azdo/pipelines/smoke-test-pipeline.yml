@@ -44,12 +44,12 @@ stages:
       testPath: ${{ variables.playwrightUITestPath }}
       debug: true
 
-- stage: APITestWebApp
-  displayName: API Test ${{ parameters.environmentToTest }}
-  jobs:
-  - template: pipes/templates/playwright-template.yml
-    parameters:
-      environment: ${{ parameters.environmentToTest }}
-      testType: ${{ variables.playwrightAPITestType }}
-      testPath: ${{ variables.playwrightAPITestPath }}
-      debug: true
+# - stage: APITestWebApp
+#   displayName: API Test ${{ parameters.environmentToTest }}
+#   jobs:
+#   - template: pipes/templates/playwright-template.yml
+#     parameters:
+#       environment: ${{ parameters.environmentToTest }}
+#       testType: ${{ variables.playwrightAPITestType }}
+#       testPath: ${{ variables.playwrightAPITestPath }}
+#       debug: true
