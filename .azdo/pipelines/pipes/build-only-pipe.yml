@@ -2,9 +2,6 @@
 # Pipeline Template to build and deploy Application Only
 # ------------------------------------------------------------------------------------------------------------------------
 parameters:
-- name: environments
-  type: object
-  default: ['DEV']
 - name: runGHASScan
   default: 'false'
 - name: runMSDevSecOpsScan
@@ -22,7 +19,7 @@ stages:
     jobs:
     - template: templates/scan-code-template.yml
       parameters:
-        environmentName: 'DEMO'
+        environmentName: 'DEV'
         runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
         runGHASScan: ${{ parameters.runGHASScan }}
 

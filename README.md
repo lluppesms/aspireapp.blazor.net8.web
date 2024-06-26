@@ -17,3 +17,4 @@ This project has fully automated CI/CD pipelines with Bicep templates for all of
 - Haven't tested GH Actions deploy yet
 - Haven't tested AZ UP deploy yet
 - The API is not working right
+- The Aspire Unit Tests are failing in the pipeline

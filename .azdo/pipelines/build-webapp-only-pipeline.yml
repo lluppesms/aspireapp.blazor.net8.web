@@ -20,7 +20,7 @@ trigger:
   #     - main
   # paths:
   #   include:
-  #     - 'src/lll-aspireapp.Web/*'
+  #     - 'src/AspireApp1/AspireApp.Web/*'
   #   exclude: 
   #     - '**/*.yml'
   #     - '**/*.yaml'
@@ -29,16 +29,6 @@ trigger:
 
 # ----------------------------------------------------------------------------------------------------
 parameters:
-  - name: deployToEnvironment
-    displayName: Deploy To
-    type: string
-    values:
-      - DEMO
-      - DEV
-      - QA
-      - PROD
-      - MULTIPLE
-    default: DEMO
   - name: runUnitTests
     displayName: Run Unit Tests
     type: boolean
@@ -54,20 +44,10 @@ parameters:
 
 # ----------------------------------------------------------------------------------------------------
 stages:
-- ${{ if ne(parameters.deployToEnvironment, 'MULTIPLE') }}:
   - template: pipes/build-only-pipe.yml
     parameters:
-      environments: ['${{ parameters.deployToEnvironment }}']
       runUnitTests: ${{ parameters.runUnitTests }}
       runUITests: 'false'
       runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
       runGHASScan: ${{ parameters.runGHASScan }}
 
-- ${{ if eq(parameters.deployToEnvironment, 'MULTIPLE') }}:
-  - template: pipes/build-only-pipe.yml
-    parameters:
-      environments: ['DEV','PROD']
-      runUnitTests: ${{ parameters.runUnitTests }}
-      runUITests: 'false'
-      runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
-      runGHASScan: ${{ parameters.runGHASScan }}

@@ -22,8 +22,8 @@ trigger:
 # ----------------------------------------------------------------------------------------------------
 resources:
   pipelines:
-  - pipeline: lll-aspireapp.web.build.deploy # internal identifier for the resource
-    source: lll-aspireapp.web.build.deploy  # name of the pipeline that produces an artifact
+  - pipeline: aspire.blazor.build.only # internal identifier for the resource
+    source: aspire.blazor.build.only  # name of the pipeline that produces an artifact
     branch: main                           # should only allow builds from the main branch to be used
 
 # ----------------------------------------------------------------------------------------------------
@@ -45,10 +45,10 @@ stages:
   - template: pipes/deploy-only-pipe.yml
     parameters:
       environments: [ '${{ parameters.deployToEnvironment }}' ]
-      pipelineResourceIdentifier: 'lll-aspireapp.web.build.deploy'
+      pipelineResourceIdentifier: 'aspire.blazor.build.only'
 
 - ${{ if eq(parameters.deployToEnvironment, 'MULTIPLE') }}:
   - template: pipes/deploy-only-pipe.yml
     parameters:
       environments: ['DEV','PROD']
-      pipelineResourceIdentifier: 'lll-aspireapp.web.build.deploy'
+      pipelineResourceIdentifier: 'aspire.blazor.build.only'

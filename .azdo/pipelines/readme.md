@@ -9,6 +9,7 @@ Typically, you would want to set up either Option (a), or Option (b) AND Option 
 - **[build-webapp-only-pipeline.yml](build-webapp-only-pipeline.yml):** Builds the website and then deploys the website to the Azure App Service
 - **[deploy-webapp-only-pipeline.yml](deploy-webapp-only-pipeline.yml):** Deploys a previously built website to the Azure App Service
 - **[scan-pipeline.yml](scan-pipeline.yml):** Performs a periodic security scan
+- **[smoke-test-pipeline.yml](scan-pipeline.yml):** Performs a smoke test of your website
 
 ---
 
