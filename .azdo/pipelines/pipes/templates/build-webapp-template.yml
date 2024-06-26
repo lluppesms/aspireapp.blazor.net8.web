@@ -133,7 +133,7 @@ jobs:
         command: 'restore'
         projects: '$(testFullName)'
 
-    # Right now my Aspire tests are all failing... don't break the build, just record it and move on...
+    # Sometimes my Aspire tests are failing... so - don't break the build, just record it and move on...
     - task: DotNetCoreCLI@2
       displayName: 'Run Tests'
       continueOnError: true
