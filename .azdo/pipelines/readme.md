@@ -10,6 +10,7 @@ Typically, you would want to set up either Option (a), or Option (b) AND Option 
 - **[deploy-webapp-only-pipeline.yml](deploy-webapp-only-pipeline.yml):** Deploys a previously built website to the Azure App Service
 - **[scan-pipeline.yml](scan-pipeline.yml):** Performs a periodic security scan
 - **[smoke-test-pipeline.yml](scan-pipeline.yml):** Performs a smoke test of your website
+- **[build-pr-pipeline.yml](scan-pipeline.yml):** Pipeline that does just a scan and build for Pull Requests
 
 ---
 
@@ -48,10 +49,12 @@ Alternatively, you could define these variables in the Azure DevOps Portal on ea
      --name aspireapp.blazor.net8.web
      --variables 
          appName='<yourInitials>-aspireapp' 
-         apiKey='<yourapiKey>'
+         serviceConnectionName='yourServiceConnectionName'
          adDomain='yourDomain.onmicrosoft.com'
          adTenantId='yourTenantId'
          adClientId='yourClientId'
          adInstance='yourLoginInstance'
-         serviceConnectionName='yourServiceConnectionName'
+         apiKey='<yourapiKey>'
 ```
+
+Note: the ad* variables are optional and only needed if you are going to enable authentication on the app.

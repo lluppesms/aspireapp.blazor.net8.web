@@ -10,11 +10,11 @@ This project has fully automated CI/CD pipelines with Bicep templates for all of
 
 [1]: https://vscode.dev/github/lluppesms/aspireapp.blazor.net8.web/
 
-[![azd Compatible](/Docs/images/AZD_Compatible.png)](/.azure/readme.md)
+[![azd Compatible](./docs/images/AZD_Compatible.png)](/.azure/readme.md)
 
 ## TODO:
 
-- Haven't tested GH Actions deploy yet
-- Haven't tested AZ UP deploy yet
-- The API is not working right
-- The Aspire Unit Tests are failing in the pipeline
+- I haven't tested the GH Actions deploy yet
+- I haven't tested the AZ UP deploy command yet
+- The API is not working right so the weather page is broken (app misconfiguration?)
+- The Aspire Unit Tests are occasionally failing in the pipeline - not sure why...?
